@@ -29,16 +29,13 @@ app.set('trust proxy', 1 /* number of proxies between user and server */)
 app.use(expressRateLimiter({
 	windowMs: 15 * 60 * 1000, // 15 minutes
 	limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-	standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
-	legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
-	// store: ... , // Redis, Memcached, etc. See below.
 }));
-app.use(helmet());
-app.use(xssclean());
-app.use(cors());
-
 app.use(express.json());//load this middle ware first since we need requests and responses to be sent in json
-app.use('/api-use/',swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use(helmet());
+app.use(cors());
+app.use(xssclean());
+
+app.use('/api-use',swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.get('/', (req, res)=>{
   console.log('am i here');
   res.send('<h1>jobs api</h1><a href="/api-use">Documentation</a>');
