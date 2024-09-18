@@ -27,9 +27,9 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 app.set('trust proxy', 1 /* number of proxies between user and server */)
 
 app.use(expressRateLimiter({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-}));
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+}))
 app.use(express.json());//load this middle ware first since we need requests and responses to be sent in json
 app.use(helmet());
 app.use(cors());
